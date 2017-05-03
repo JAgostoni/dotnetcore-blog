@@ -4,6 +4,7 @@ using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExampleCoreApi.Controllers
 {
@@ -42,7 +43,7 @@ namespace ExampleCoreApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult Post([FromBody]Post post)
         {
             try

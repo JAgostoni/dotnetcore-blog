@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Business.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using core_blog.api.Core;
+using Microsoft.AspNetCore.Authentication;
 
 namespace core_blog.api
 {
@@ -61,6 +62,15 @@ namespace core_blog.api
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            // Setup for Auth0 / OAuth
+            var options = new JwtBearerOptions
+            {
+                Audience = Configuration["Auth0:ApiIdentifier"],
+                Authority = $"https://{Configuration["Auth0:Domain"]}/"
+            };
+
+            app.UseJwtBearerAuthentication(options);
 
             app.UseMvc();
             app.UseCors(builder => builder.WithOrigins("*"));
